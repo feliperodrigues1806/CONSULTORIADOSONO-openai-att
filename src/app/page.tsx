@@ -24,6 +24,7 @@ import AppShell from '@/components/app-shell';
 import { useToast } from '@/hooks/use-toast';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useReports } from '@/hooks/use-reports';
+import { MarkdownContent } from '@/components/markdown-content';
 
 const formSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
@@ -252,12 +253,14 @@ export default function ConsultationPage() {
                     <p className="mt-4">Nossa IA está analisando seu perfil...</p>
                   </div>
                 ) : report ? (
-                  <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none w-full whitespace-pre-wrap rounded-md bg-muted p-4 font-sans text-sm">
+                  <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none w-full rounded-md bg-muted p-4 font-sans text-sm">
                     <div className="flex items-start gap-4">
                       <Avatar className="h-8 w-8 border">
                          <AvatarFallback className="bg-primary text-primary-foreground"><Bot className="h-5 w-5"/></AvatarFallback>
                       </Avatar>
-                      <p className="flex-1 pt-0.5">{report}</p>
+                       <div className="flex-1 pt-0.5">
+                        <MarkdownContent text={report} />
+                      </div>
                     </div>
                   </div>
                 ) : (

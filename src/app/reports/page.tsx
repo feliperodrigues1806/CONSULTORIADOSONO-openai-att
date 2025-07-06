@@ -31,6 +31,7 @@ import { Separator } from '@/components/ui/separator';
 import AuthGuard from '@/components/auth-guard';
 import AppShell from '@/components/app-shell';
 import { useReports, type Report as ReportType } from '@/hooks/use-reports';
+import { MarkdownContent } from '@/components/markdown-content';
 
 export default function ReportsPage() {
   const { reports, isLoading } = useReports();
@@ -122,8 +123,8 @@ export default function ReportsPage() {
               </DialogHeader>
               <Separator />
               <ScrollArea className="h-[60vh] pr-4">
-                <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none whitespace-pre-wrap font-sans">
-                  {selectedReport.content}
+                <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none font-sans">
+                  <MarkdownContent text={selectedReport.content} />
                 </div>
               </ScrollArea>
             </DialogContent>
