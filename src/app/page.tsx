@@ -49,7 +49,7 @@ export default function ConsultationPage() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
-      age: undefined,
+      age: '' as any,
       routineDescription: '',
       bedtime: '23:00',
       sleepDifficulties: '',
