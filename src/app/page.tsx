@@ -62,23 +62,29 @@ export default function ConsultationPage() {
     setIsLoading(true);
     setReport(null);
     try {
+      // A action agora retorna um objeto com 'report' ou 'error'
       const result = await generateReportAction(values);
-      if (result.report && !result.report.startsWith('Desculpe')) {
+
+      if (result.report) {
+        // Sucesso: exibe e salva o relatório
         setReport(result.report);
         addReport(result.report);
       } else {
+        // Erro: exibe o erro detalhado no toast
         toast({
           variant: 'destructive',
-          title: 'Erro ao gerar relatório',
-          description: result.report || 'A IA não conseguiu gerar um relatório. Por favor, tente novamente.',
+          title: 'Erro ao Gerar Relatório',
+          // A mensagem de erro agora vem detalhada do backend
+          description: result.error || 'A IA não conseguiu gerar um relatório. Por favor, tente novamente.',
         });
       }
     } catch (error) {
+      // Este bloco captura erros de rede ou falhas inesperadas na action
       toast({
         variant: 'destructive',
-        title: 'Ocorreu um erro',
+        title: 'Ocorreu um erro de comunicação',
         description:
-          'Algo deu errado ao gerar seu relatório. Por favor, tente novamente mais tarde.',
+          'Algo deu errado ao gerar seu relatório. Verifique sua conexão e tente novamente mais tarde.',
       });
       console.error(error);
     } finally {
