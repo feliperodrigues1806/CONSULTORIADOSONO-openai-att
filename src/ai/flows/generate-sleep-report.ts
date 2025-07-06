@@ -32,59 +32,61 @@ export async function generateSleepReport(input: GenerateSleepReportInput): Prom
   return generateSleepReportFlow(input);
 }
 
-const generateSleepReportPrompt = ai.definePrompt({
-  name: 'generateSleepReportPrompt',
-  input: {schema: GenerateSleepReportInputSchema},
-  prompt: `Você é um consultor de sono de IA. Seu objetivo é gerar um relatório de sono personalizado com conselhos adaptados com base nas informações do usuário.
-
-  O relatório deve se dirigir ao usuário pelo nome e fornecer recomendações específicas com base em sua rotina, dificuldades e expectativas.
-
-  Nome do Usuário: {{name}}
-  Idade do Usuário: {{age}}
-  Descrição da Rotina: {{routineDescription}}
-  Horário de Dormir: {{bedtime}}
-  Dificuldades para Dormir: {{sleepDifficulties}}
-  Métodos Anteriores: {{previousMethods}}
-  Expectativas: {{expectations}}
-
-  Gere um relatório de sono detalhado e prático, citando o nome do usuário e adaptando o conteúdo à sua situação pessoal.
-`,
-  config: {
-    model: 'googleai/gemini-1.5-flash-latest',
-    safetySettings: [
-      {
-        category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-        threshold: 'BLOCK_NONE',
-      },
-      {
-        category: 'HARM_CATEGORY_HATE_SPEECH',
-        threshold: 'BLOCK_NONE',
-      },
-      {
-        category: 'HARM_CATEGORY_HARASSMENT',
-        threshold: 'BLOCK_NONE',
-      },
-      {
-        category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-        threshold: 'BLOCK_NONE',
-      },
-    ],
-  },
-});
-
 const generateSleepReportFlow = ai.defineFlow(
   {
     name: 'generateSleepReportFlow',
     inputSchema: GenerateSleepReportInputSchema,
     outputSchema: GenerateSleepReportOutputSchema,
   },
-  async input => {
-    const result = await generateSleepReportPrompt(input);
+  async (input) => {
+    // Construct the prompt manually for more direct control
+    const prompt = `Você é um consultor de sono de IA. Seu objetivo é gerar um relatório de sono personalizado com conselhos adaptados com base nas informações do usuário.
+
+O relatório deve se dirigir ao usuário pelo nome e fornecer recomendações específicas com base em sua rotina, dificuldades e expectativas.
+
+Nome do Usuário: ${input.name}
+Idade do Usuário: ${input.age}
+Descrição da Rotina: ${input.routineDescription}
+Horário de Dormir: ${input.bedtime}
+Dificuldades para Dormir: ${input.sleepDifficulties}
+Métodos Anteriores: ${input.previousMethods}
+Expectativas: ${input.expectations}
+
+Gere um relatório de sono detalhado e prático, citando o nome do usuário e adaptando o conteúdo à sua situação pessoal.`;
+
+    const result = await ai.generate({
+      model: 'googleai/gemini-1.5-flash-latest',
+      prompt: prompt,
+      config: {
+        safetySettings: [
+          {
+            category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
+            threshold: 'BLOCK_NONE',
+          },
+          {
+            category: 'HARM_CATEGORY_HATE_SPEECH',
+            threshold: 'BLOCK_NONE',
+          },
+          {
+            category: 'HARM_CATEGORY_HARASSMENT',
+            threshold: 'BLOCK_NONE',
+          },
+          {
+            category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
+            threshold: 'BLOCK_NONE',
+          },
+        ],
+      },
+    });
+    
     const reportText = result.text;
 
     if (!reportText) {
-      console.error("A resposta de texto da IA estava vazia. Resposta completa:", JSON.stringify(result));
-      throw new Error("A IA não gerou o texto do relatório.");
+      console.error(
+        'A resposta de texto da IA estava vazia. Resposta completa:',
+        JSON.stringify(result)
+      );
+      throw new Error('A IA não gerou o texto do relatório.');
     }
 
     return { report: reportText };
