@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
-  Bot,
+  Moon,
   FileText,
   LibraryBig,
   LogOut,
@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/sheet';
 
 const navItems = [
-  { href: '/', label: 'Consulta', icon: Bot },
+  { href: '/', label: 'Consulta', icon: Moon },
   { href: '/reports', label: 'Meus Relatórios', icon: FileText },
   { href: '/content', label: 'Mais Conteúdo', icon: LibraryBig },
   { href: '/settings', label: 'Configurações', icon: Settings },
@@ -77,7 +77,7 @@ const MobileNav = ({ onLogout }: { onLogout: () => void }) => {
             className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
           >
             <Logo className="h-6 w-6" />
-            <span className="sr-only">SleepWise AI</span>
+            <span className="sr-only">Consultoria do Sono</span>
           </Link>
           {navItems.map((item) => (
             <NavLink

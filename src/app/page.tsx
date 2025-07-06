@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Bot, Loader2, User } from 'lucide-react';
+import { Moon, Loader2, User } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -256,7 +256,7 @@ export default function ConsultationPage() {
                   <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none w-full rounded-md bg-muted p-4 font-sans text-sm">
                     <div className="flex items-start gap-4">
                       <Avatar className="h-8 w-8 border">
-                         <AvatarFallback className="bg-primary text-primary-foreground"><Bot className="h-5 w-5"/></AvatarFallback>
+                         <AvatarFallback className="bg-primary text-primary-foreground"><Moon className="h-5 w-5"/></AvatarFallback>
                       </Avatar>
                        <div className="flex-1 pt-0.5">
                         <MarkdownContent text={report} />
@@ -265,7 +265,7 @@ export default function ConsultationPage() {
                   </div>
                 ) : (
                    <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
-                    <Bot className="mx-auto h-12 w-12" />
+                    <Moon className="mx-auto h-12 w-12" />
                     <p className="mt-4">Seu relatório aparecerá aqui.</p>
                   </div>
                 )}

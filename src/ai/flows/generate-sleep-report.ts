@@ -48,7 +48,7 @@ const generateSleepReportFlow = ai.defineFlow(
     });
 
     const prompt = `
-Você é um consultor de sono de IA chamado SleepWise. Seu objetivo é gerar um relatório de sono personalizado, estruturado e motivacional em Markdown.
+Você é um consultor de sono da plataforma Consultoria do Sono. Seu objetivo é gerar um relatório de sono personalizado, estruturado e motivacional em Markdown.
 
 **Instruções Gerais:**
 - Use um tom amigável, profissional e encorajador.
@@ -109,26 +109,6 @@ Você é um consultor de sono de IA chamado SleepWise. Seu objetivo é gerar um 
       const result = await ai.generate({
         model: 'googleai/gemini-1.5-flash-latest',
         prompt: prompt,
-        config: {
-          safetySettings: [
-            {
-              category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
-              threshold: 'BLOCK_NONE',
-            },
-            {
-              category: 'HARM_CATEGORY_HATE_SPEECH',
-              threshold: 'BLOCK_NONE',
-            },
-            {
-              category: 'HARM_CATEGORY_HARASSMENT',
-              threshold: 'BLOCK_NONE',
-            },
-            {
-              category: 'HARM_CATEGORY_SEXUALLY_EXPLICIT',
-              threshold: 'BLOCK_NONE',
-            },
-          ],
-        },
       });
       
       const reportText = result.text;

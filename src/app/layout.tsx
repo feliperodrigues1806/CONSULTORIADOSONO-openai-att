@@ -4,7 +4,7 @@ import './globals.css';
 import {cn} from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'SleepWise AI',
+  title: 'Consultoria do Sono',
   description: 'Consultoria de sono personalizada com IA.',
 };
 

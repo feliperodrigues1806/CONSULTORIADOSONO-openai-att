@@ -12,7 +12,7 @@ export function Logo({ className }: { className?: string }) {
       <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
         <BedDouble className="h-5 w-5" />
       </div>
-      SleepWise AI
+      Consultoria do Sono
     </div>
   );
 }
