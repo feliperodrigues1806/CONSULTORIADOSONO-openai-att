@@ -51,6 +51,7 @@ const generateSleepReportPrompt = ai.definePrompt({
   Gere um relatório de sono detalhado e prático, citando o nome do usuário e adaptando o conteúdo à sua situação pessoal.
 `,
   config: {
+    model: 'googleai/gemini-1.5-flash-latest',
     safetySettings: [
       {
         category: 'HARM_CATEGORY_DANGEROUS_CONTENT',
