@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 
 type User = {
   email: string;
+  photoURL?: string;
 };
 
 export function useAuth() {
@@ -53,5 +54,14 @@ export function useAuth() {
     router.push('/login');
   }, [router]);
 
-  return { user, isLoading, isAuthenticated: !!user, login, register, logout };
+  const updateProfilePicture = useCallback((photoURL: string) => {
+    setUser(currentUser => {
+      if (!currentUser) return null;
+      const updatedUser = { ...currentUser, photoURL };
+      localStorage.setItem('sleepwise_user', JSON.stringify(updatedUser));
+      return updatedUser;
+    });
+  }, []);
+
+  return { user, isLoading, isAuthenticated: !!user, login, register, logout, updateProfilePicture };
 }

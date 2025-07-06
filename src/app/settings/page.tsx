@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { useEffect } from 'react';
+import { useEffect, useRef, type ChangeEvent } from 'react';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -41,8 +41,9 @@ const passwordSchema = z.object({
 });
 
 export default function SettingsPage() {
-  const { user, logout } = useAuth();
+  const { user, logout, updateProfilePicture } = useAuth();
   const { toast } = useToast();
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const profileForm = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
@@ -78,6 +79,20 @@ export default function SettingsPage() {
     passwordForm.reset();
   }
 
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file && updateProfilePicture) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const dataUrl = reader.result as string;
+        updateProfilePicture(dataUrl);
+        toast({ title: 'Foto de Perfil Atualizada', description: 'Sua nova foto foi salva.' });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+
   return (
     <AuthGuard>
       <AppShell>
@@ -97,10 +112,17 @@ export default function SettingsPage() {
                   <form onSubmit={profileForm.handleSubmit(onProfileSubmit)} className="space-y-6">
                     <div className="flex items-center gap-4">
                       <Avatar className="h-16 w-16">
-                        <AvatarImage src="https://placehold.co/100x100.png" alt="@user" data-ai-hint="profile avatar" />
+                        <AvatarImage src={user?.photoURL || 'https://placehold.co/100x100.png'} alt="@user" data-ai-hint="profile avatar" />
                         <AvatarFallback>JS</AvatarFallback>
                       </Avatar>
-                      <Button variant="outline">Alterar Foto</Button>
+                       <input
+                        type="file"
+                        ref={fileInputRef}
+                        onChange={handleFileChange}
+                        className="hidden"
+                        accept="image/*"
+                      />
+                      <Button type="button" variant="outline" onClick={() => fileInputRef.current?.click()}>Alterar Foto</Button>
                     </div>
                     <FormField
                       control={profileForm.control}
