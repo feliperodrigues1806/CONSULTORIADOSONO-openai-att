@@ -23,27 +23,6 @@ const contentItems = [
     icon: <Image data-ai-hint="challenge goal" src="https://i.imgur.com/SasjOKJ.png" alt="Desafio" width={600} height={400} className="w-full h-40 object-cover" />,
     cta: 'Iniciar Desafio',
   },
-  {
-    title: 'Eslen Delanogare: O Hábito que vai Mudar o Seu Sono',
-    description: 'Aprenda como um simples hábito pode transformar suas noites e sua vida.',
-    href: 'https://www.youtube.com/watch?v=Jc2-a_q1kSs',
-    icon: <Image data-ai-hint="youtube video" src="https://placehold.co/600x400.png" alt="Vídeo sobre hábito de sono" width={600} height={400} className="w-full h-40 object-cover" />,
-    cta: 'Assistir no YouTube',
-  },
-  {
-    title: 'Eslen Delanogare: A Importância do Sono para a Saúde',
-    description: 'Descubra a ciência por trás de uma boa noite de sono e seu impacto na saúde.',
-    href: 'https://www.youtube.com/watch?v=o8Lz_j_i_pY',
-    icon: <Image data-ai-hint="youtube play" src="https://placehold.co/600x400.png" alt="Vídeo sobre importância do sono" width={600} height={400} className="w-full h-40 object-cover" />,
-    cta: 'Assistir no YouTube',
-  },
-  {
-    title: 'Eslen Delanogare: Como Dormir Melhor',
-    description: 'Dicas práticas para ter um sono de mais qualidade e acordar renovado.',
-    href: 'https://www.youtube.com/watch?v=M5araL1vJ8Y',
-    icon: <Image data-ai-hint="video learning" src="https://placehold.co/600x400.png" alt="Vídeo com dicas de sono" width={600} height={400} className="w-full h-40 object-cover" />,
-    cta: 'Assistir no YouTube',
-  },
 ];
 
 export default function ContentPage() {
@@ -55,10 +34,10 @@ export default function ContentPage() {
             <h1 className="text-3xl font-bold tracking-tight">Mais Conteúdo</h1>
           </div>
           <p className="text-muted-foreground">
-            Explore estes recursos adicionais para aprimorar sua jornada de sono.
+            Explore este recurso para aprimorar sua jornada de sono.
           </p>
 
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="mx-auto max-w-md pt-6">
             {contentItems.map((item) => (
               <Card key={item.title} className="flex flex-col overflow-hidden">
                 <div className="h-40 overflow-hidden">
