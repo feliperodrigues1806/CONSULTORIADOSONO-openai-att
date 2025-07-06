@@ -3,6 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -47,7 +48,7 @@ export default function SettingsPage() {
     resolver: zodResolver(profileSchema),
     defaultValues: {
       name: 'Joana Silva',
-      email: user?.email || '',
+      email: '',
     },
   });
 
@@ -58,6 +59,15 @@ export default function SettingsPage() {
       newPassword: '',
     },
   });
+
+  useEffect(() => {
+    if (user) {
+      profileForm.reset({
+        name: 'Joana Silva',
+        email: user.email,
+      });
+    }
+  }, [user, profileForm]);
 
   function onProfileSubmit(values: z.infer<typeof profileSchema>) {
     toast({ title: 'Perfil Atualizado', description: 'Seu perfil foi atualizado com sucesso.' });

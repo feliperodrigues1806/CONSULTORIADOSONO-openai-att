@@ -5,7 +5,7 @@ import {cn} from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'Consultoria do Sono',
-  description: 'Consultoria de sono personalizada com IA.',
+  description: 'Consultoria de sono personalizada.',
 };
 
 export default function RootLayout({

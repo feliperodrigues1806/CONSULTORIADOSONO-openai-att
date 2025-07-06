@@ -116,10 +116,10 @@ Você é um consultor de sono da plataforma Consultoria do Sono. Seu objetivo é
 
       if (!reportText) {
         console.error(
-          '[generateSleepReportFlow] A resposta de texto da IA estava vazia. Resposta completa:',
+          '[generateSleepReportFlow] A resposta de texto estava vazia. Resposta completa:',
           JSON.stringify(result, null, 2)
         );
-        throw new Error('A IA não retornou conteúdo de texto no relatório.');
+        throw new Error('O sistema não retornou conteúdo de texto no relatório.');
       }
 
       console.log('[generateSleepReportFlow] Relatório gerado com sucesso.');
@@ -129,9 +129,9 @@ Você é um consultor de sono da plataforma Consultoria do Sono. Seu objetivo é
       console.error('[generateSleepReportFlow] Erro detalhado ao chamar a API Gemini:', error);
       if (error instanceof Error) {
         // Propaga o erro com uma mensagem mais clara, que será capturada pela action.
-        throw new Error(`Falha na comunicação com a IA: ${error.message}`);
+        throw new Error(`Falha na comunicação com nosso sistema: ${error.message}`);
       }
-      throw new Error('Ocorreu um erro desconhecido ao se comunicar com a IA.');
+      throw new Error('Ocorreu um erro desconhecido ao se comunicar com nosso sistema.');
     }
   }
 );

@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { Moon, Loader2, User } from 'lucide-react';
+import { Moon, Loader2 } from 'lucide-react';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -22,7 +22,7 @@ import { generateReportAction } from './actions';
 import AuthGuard from '@/components/auth-guard';
 import AppShell from '@/components/app-shell';
 import { useToast } from '@/hooks/use-toast';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useReports } from '@/hooks/use-reports';
 import { MarkdownContent } from '@/components/markdown-content';
 
@@ -76,7 +76,7 @@ export default function ConsultationPage() {
           variant: 'destructive',
           title: 'Erro ao Gerar Relatório',
           // A mensagem de erro agora vem detalhada do backend
-          description: result.error || 'A IA não conseguiu gerar um relatório. Por favor, tente novamente.',
+          description: result.error || 'Não foi possível gerar um relatório. Por favor, tente novamente.',
         });
       }
     } catch (error) {
@@ -99,12 +99,11 @@ export default function ConsultationPage() {
         <div className="flex-1 space-y-4 p-4 sm:p-8 pt-6">
           <div className="flex items-center justify-between space-y-2">
             <h1 className="text-3xl font-bold tracking-tight">
-              Consulta de Sono com IA
+              Consulta de Sono
             </h1>
           </div>
           <p className="text-muted-foreground">
-            Preencha o formulário abaixo para receber um relatório de sono personalizado do
-            nosso consultor de IA.
+            Preencha o formulário abaixo para receber um relatório de sono personalizado.
           </p>
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
@@ -139,7 +138,7 @@ export default function ConsultationPage() {
                           <FormItem>
                             <FormLabel>Idade</FormLabel>
                             <FormControl>
-                              <Input type="number" placeholder="ex: 30" {...field} />
+                              <Input type="number" placeholder="ex: 30" {...field} value={field.value || ''} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -250,7 +249,7 @@ export default function ConsultationPage() {
                 {isLoading ? (
                   <div className="text-center text-muted-foreground">
                     <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
-                    <p className="mt-4">Nossa IA está analisando seu perfil...</p>
+                    <p className="mt-4">Nosso consultor está analisando seu perfil...</p>
                   </div>
                 ) : report ? (
                   <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none w-full rounded-md bg-muted p-4 font-sans text-sm">
