@@ -20,7 +20,7 @@ const contentItems = [
     title: 'Acesse o Desafio de 7 Dias',
     description: 'Participe do nosso desafio completo de 7 dias para transformar seus hábitos de sono.',
     href: 'https://membros-durmaigualbebeem7dias.vercel.app/',
-    icon: <Image data-ai-hint="challenge goal" src="https://placehold.co/600x400.png" alt="Desafio" width={600} height={400} className="w-full h-40 object-cover" />,
+    icon: <Image data-ai-hint="challenge goal" src="https://i.imgur.com/SasjOKJ.png" alt="Desafio" width={600} height={400} className="w-full h-40 object-cover" />,
     cta: 'Iniciar Desafio',
   },
   {
