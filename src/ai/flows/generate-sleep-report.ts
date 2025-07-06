@@ -35,7 +35,6 @@ export async function generateSleepReport(input: GenerateSleepReportInput): Prom
 const generateSleepReportPrompt = ai.definePrompt({
   name: 'generateSleepReportPrompt',
   input: {schema: GenerateSleepReportInputSchema},
-  output: {schema: GenerateSleepReportOutputSchema},
   prompt: `Você é um consultor de sono de IA. Seu objetivo é gerar um relatório de sono personalizado com conselhos adaptados com base nas informações do usuário.
 
   O relatório deve se dirigir ao usuário pelo nome e fornecer recomendações específicas com base em sua rotina, dificuldades e expectativas.
@@ -81,11 +80,13 @@ const generateSleepReportFlow = ai.defineFlow(
   },
   async input => {
     const result = await generateSleepReportPrompt(input);
-    const output = result.output;
-    if (!output) {
-      console.error("AI response was empty or did not match the expected schema. Full response:", JSON.stringify(result));
-      throw new Error("A resposta da IA falhou ou estava em um formato inesperado.");
+    const reportText = result.text;
+
+    if (!reportText) {
+      console.error("A resposta de texto da IA estava vazia. Resposta completa:", JSON.stringify(result));
+      throw new Error("A IA não gerou o texto do relatório.");
     }
-    return output;
+
+    return { report: reportText };
   }
 );
