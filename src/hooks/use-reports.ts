@@ -37,7 +37,7 @@ export function useReports() {
     
     const newReport: Report = {
       id: new Date().toISOString(),
-      date: new Date().toLocaleDateString('en-US', {
+      date: new Date().toLocaleDateString('pt-BR', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',

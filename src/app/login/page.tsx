@@ -28,8 +28,8 @@ import { useAuth } from '@/hooks/use-auth';
 import { Logo } from '@/components/logo';
 
 const formSchema = z.object({
-  email: z.string().email('Please enter a valid email address.'),
-  password: z.string().min(1, 'Password is required.'),
+  email: z.string().email('Por favor, insira um endereço de e-mail válido.'),
+  password: z.string().min(1, 'A senha é obrigatória.'),
 });
 
 export default function LoginPage() {
@@ -60,9 +60,9 @@ export default function LoginPage() {
       </div>
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Login</CardTitle>
+          <CardTitle className="text-2xl">Entrar</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account.
+            Digite seu e-mail abaixo para entrar em sua conta.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -73,11 +73,11 @@ export default function LoginPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>E-mail</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="m@example.com"
+                        placeholder="m@exemplo.com"
                         {...field}
                       />
                     </FormControl>
@@ -90,7 +90,7 @@ export default function LoginPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Senha</FormLabel>
                      <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -100,19 +100,19 @@ export default function LoginPage() {
               />
                <div className="text-right text-sm">
                   <Link href="/forgot-password" prefetch={false} className="underline">
-                    Forgot your password?
+                    Esqueceu sua senha?
                   </Link>
                 </div>
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Login
+                Entrar
               </Button>
             </form>
           </Form>
           <div className="mt-4 text-center text-sm">
-            Don&apos;t have an account?{' '}
+            Não tem uma conta?{' '}
             <Link href="/register" className="underline">
-              Sign up
+              Cadastre-se
             </Link>
           </div>
         </CardContent>

@@ -5,7 +5,7 @@ import {cn} from '@/lib/utils';
 
 export const metadata: Metadata = {
   title: 'SleepWise AI',
-  description: 'Personalized AI-powered sleep consultation.',
+  description: 'Consultoria de sono personalizada com IA.',
 };
 
 export default function RootLayout({
@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="pt-BR" className="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

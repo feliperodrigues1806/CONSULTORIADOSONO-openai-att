@@ -15,7 +15,7 @@ export async function generateReportAction(
   } catch (error) {
     console.error('Error in generateReportAction:', error);
     return {
-      report: 'Sorry, there was an error generating your report. Please try again later.',
+      report: 'Desculpe, ocorreu um erro ao gerar seu relatório. Por favor, tente novamente mais tarde.',
     };
   }
 }

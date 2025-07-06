@@ -2,29 +2,29 @@
 'use server';
 
 /**
- * @fileOverview Generates a personalized sleep report with tailored advice based on user input.
+ * @fileOverview Gera um relatório de sono personalizado com conselhos adaptados com base na entrada do usuário.
  *
- * - generateSleepReport - A function that handles the generation of the sleep report.
- * - GenerateSleepReportInput - The input type for the generateSleepReport function.
- * - GenerateSleepReportOutput - The return type for the generateSleepReport function.
+ * - generateSleepReport - Uma função que lida com a geração do relatório de sono.
+ * - GenerateSleepReportInput - O tipo de entrada para a função generateSleepReport.
+ * - GenerateSleepReportOutput - O tipo de retorno para a função generateSleepReport.
  */
 
 import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateSleepReportInputSchema = z.object({
-  name: z.string().describe('The user\'s name.'),
-  age: z.number().describe('The user\'s age.'),
-  routineDescription: z.string().describe('A description of the user\'s daily routine.'),
-  bedtime: z.string().describe('The user\'s typical bedtime.'),
-  sleepDifficulties: z.string().describe('A description of the user\'s sleep difficulties.'),
-  previousMethods: z.string().describe('Any previous methods the user has tried to improve sleep.'),
-  expectations: z.string().describe('The user\'s expectations for improving sleep.'),
+  name: z.string().describe("O nome do usuário."),
+  age: z.number().describe("A idade do usuário."),
+  routineDescription: z.string().describe("Uma descrição da rotina diária do usuário."),
+  bedtime: z.string().describe("O horário de dormir típico do usuário."),
+  sleepDifficulties: z.string().describe("Uma descrição das dificuldades de sono do usuário."),
+  previousMethods: z.string().describe("Quaisquer métodos anteriores que o usuário tentou para melhorar o sono."),
+  expectations: z.string().describe("As expectativas do usuário para melhorar o sono."),
 });
 export type GenerateSleepReportInput = z.infer<typeof GenerateSleepReportInputSchema>;
 
 const GenerateSleepReportOutputSchema = z.object({
-  report: z.string().describe('A personalized sleep report with tailored advice.'),
+  report: z.string().describe("Um relatório de sono personalizado com conselhos adaptados."),
 });
 export type GenerateSleepReportOutput = z.infer<typeof GenerateSleepReportOutputSchema>;
 
@@ -36,19 +36,19 @@ const generateSleepReportPrompt = ai.definePrompt({
   name: 'generateSleepReportPrompt',
   input: {schema: GenerateSleepReportInputSchema},
   output: {schema: GenerateSleepReportOutputSchema},
-  prompt: `You are an AI sleep consultant. Your goal is to generate a personalized sleep report with tailored advice based on the user's input.
+  prompt: `Você é um consultor de sono de IA. Seu objetivo é gerar um relatório de sono personalizado com conselhos adaptados com base nas informações do usuário.
 
-  The report should address the user by name and provide specific recommendations based on their routine, difficulties, and expectations.
+  O relatório deve se dirigir ao usuário pelo nome e fornecer recomendações específicas com base em sua rotina, dificuldades e expectativas.
 
-  User Name: {{name}}
-  User Age: {{age}}
-  Routine Description: {{routineDescription}}
-  Bedtime: {{bedtime}}
-  Sleep Difficulties: {{sleepDifficulties}}
-  Previous Methods: {{previousMethods}}
-  Expectations: {{expectations}}
+  Nome do Usuário: {{name}}
+  Idade do Usuário: {{age}}
+  Descrição da Rotina: {{routineDescription}}
+  Horário de Dormir: {{bedtime}}
+  Dificuldades para Dormir: {{sleepDifficulties}}
+  Métodos Anteriores: {{previousMethods}}
+  Expectativas: {{expectations}}
 
-  Generate a detailed and actionable sleep report, citing the user's name and adapting the content to their personal situation.
+  Gere um relatório de sono detalhado e prático, citando o nome do usuário e adaptando o conteúdo à sua situação pessoal.
 `,
 });
 

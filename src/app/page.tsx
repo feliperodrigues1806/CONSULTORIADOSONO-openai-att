@@ -26,15 +26,15 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useReports } from '@/hooks/use-reports';
 
 const formSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters.'),
-  age: z.coerce.number().min(1, 'Please enter your age.').max(120),
-  routineDescription: z.string().min(10, 'Please describe your routine.'),
-  bedtime: z.string().min(1, 'Please enter your typical bedtime.'),
+  name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
+  age: z.coerce.number().min(1, 'Por favor, insira sua idade.').max(120),
+  routineDescription: z.string().min(10, 'Por favor, descreva sua rotina.'),
+  bedtime: z.string().min(1, 'Por favor, insira seu horário de dormir.'),
   sleepDifficulties: z
     .string()
-    .min(10, 'Please describe your sleep difficulties.'),
+    .min(10, 'Por favor, descreva suas dificuldades para dormir.'),
   previousMethods: z.string().optional(),
-  expectations: z.string().min(10, 'Please describe your expectations.'),
+  expectations: z.string().min(10, 'Por favor, descreva suas expectativas.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -51,7 +51,7 @@ export default function ConsultationPage() {
       name: '',
       age: undefined,
       routineDescription: '',
-      bedtime: '11:00 PM',
+      bedtime: '23:00',
       sleepDifficulties: '',
       previousMethods: '',
       expectations: '',
@@ -63,22 +63,22 @@ export default function ConsultationPage() {
     setReport(null);
     try {
       const result = await generateReportAction(values);
-      if (result.report && !result.report.startsWith('Sorry')) {
+      if (result.report && !result.report.startsWith('Desculpe')) {
         setReport(result.report);
         addReport(result.report);
       } else {
         toast({
           variant: 'destructive',
-          title: 'Error generating report',
-          description: result.report || 'The AI failed to generate a report. Please try again.',
+          title: 'Erro ao gerar relatório',
+          description: result.report || 'A IA não conseguiu gerar um relatório. Por favor, tente novamente.',
         });
       }
     } catch (error) {
       toast({
         variant: 'destructive',
-        title: 'An error occurred',
+        title: 'Ocorreu um erro',
         description:
-          'Something went wrong while generating your report. Please try again later.',
+          'Algo deu errado ao gerar seu relatório. Por favor, tente novamente mais tarde.',
       });
       console.error(error);
     } finally {
@@ -92,18 +92,18 @@ export default function ConsultationPage() {
         <div className="flex-1 space-y-4 p-4 sm:p-8 pt-6">
           <div className="flex items-center justify-between space-y-2">
             <h1 className="text-3xl font-bold tracking-tight">
-              AI Sleep Consultation
+              Consulta de Sono com IA
             </h1>
           </div>
           <p className="text-muted-foreground">
-            Fill out the form below to receive a personalized sleep report from
-            our AI consultant.
+            Preencha o formulário abaixo para receber um relatório de sono personalizado do
+            nosso consultor de IA.
           </p>
 
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             <Card>
               <CardHeader>
-                <CardTitle>Your Sleep Profile</CardTitle>
+                <CardTitle>Seu Perfil de Sono</CardTitle>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
@@ -117,9 +117,9 @@ export default function ConsultationPage() {
                         name="name"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Name</FormLabel>
+                            <FormLabel>Nome</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., Jane Doe" {...field} />
+                              <Input placeholder="ex: Joana Silva" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -130,9 +130,9 @@ export default function ConsultationPage() {
                         name="age"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Age</FormLabel>
+                            <FormLabel>Idade</FormLabel>
                             <FormControl>
-                              <Input type="number" placeholder="e.g., 30" {...field} />
+                              <Input type="number" placeholder="ex: 30" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -144,9 +144,9 @@ export default function ConsultationPage() {
                         name="bedtime"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Typical Bedtime</FormLabel>
+                            <FormLabel>Horário de Dormir Típico</FormLabel>
                             <FormControl>
-                              <Input placeholder="e.g., 11:00 PM" {...field} />
+                              <Input placeholder="ex: 23:00" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -157,10 +157,10 @@ export default function ConsultationPage() {
                       name="routineDescription"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Daily Routine</FormLabel>
+                          <FormLabel>Rotina Diária</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Describe a typical day for you..."
+                              placeholder="Descreva um dia típico para você..."
                               className="resize-y"
                               {...field}
                             />
@@ -174,10 +174,10 @@ export default function ConsultationPage() {
                       name="sleepDifficulties"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Sleep Difficulties</FormLabel>
+                          <FormLabel>Dificuldades para Dormir</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="What problems do you have with sleep?"
+                              placeholder="Quais problemas você tem para dormir?"
                               className="resize-y"
                               {...field}
                             />
@@ -191,10 +191,10 @@ export default function ConsultationPage() {
                       name="previousMethods"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Previous Methods (Optional)</FormLabel>
+                          <FormLabel>Métodos Anteriores (Opcional)</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="Have you tried anything to improve your sleep?"
+                              placeholder="Você já tentou algo para melhorar seu sono?"
                               className="resize-y"
                               {...field}
                             />
@@ -208,10 +208,10 @@ export default function ConsultationPage() {
                       name="expectations"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Expectations</FormLabel>
+                          <FormLabel>Expectativas</FormLabel>
                           <FormControl>
                             <Textarea
-                              placeholder="What do you hope to achieve?"
+                              placeholder="O que você espera alcançar?"
                               className="resize-y"
                               {...field}
                             />
@@ -224,10 +224,10 @@ export default function ConsultationPage() {
                       {isLoading ? (
                         <>
                           <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                          Generating Report...
+                          Gerando Relatório...
                         </>
                       ) : (
-                        'Generate My Report'
+                        'Gerar Meu Relatório'
                       )}
                     </Button>
                   </form>
@@ -237,13 +237,13 @@ export default function ConsultationPage() {
 
             <Card className="flex flex-col">
               <CardHeader>
-                <CardTitle>Your Personalized Report</CardTitle>
+                <CardTitle>Seu Relatório Personalizado</CardTitle>
               </CardHeader>
               <CardContent className="flex-1 flex items-center justify-center">
                 {isLoading ? (
                   <div className="text-center text-muted-foreground">
                     <Loader2 className="mx-auto h-12 w-12 animate-spin text-primary" />
-                    <p className="mt-4">Our AI is analyzing your profile...</p>
+                    <p className="mt-4">Nossa IA está analisando seu perfil...</p>
                   </div>
                 ) : report ? (
                   <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none w-full whitespace-pre-wrap rounded-md bg-muted p-4 font-sans text-sm">
@@ -257,7 +257,7 @@ export default function ConsultationPage() {
                 ) : (
                    <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
                     <Bot className="mx-auto h-12 w-12" />
-                    <p className="mt-4">Your report will appear here.</p>
+                    <p className="mt-4">Seu relatório aparecerá aqui.</p>
                   </div>
                 )}
               </CardContent>

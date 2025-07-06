@@ -10,32 +10,32 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Video, Zap } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import AuthGuard from '@/components/auth-guard';
 import AppShell from '@/components/app-shell';
 import Image from 'next/image';
 
 const contentItems = [
   {
-    title: 'Access the 7-Day Challenge',
-    description: 'Join our full 7-day challenge to transform your sleep habits.',
+    title: 'Acesse o Desafio de 7 Dias',
+    description: 'Participe do nosso desafio completo de 7 dias para transformar seus hábitos de sono.',
     href: 'https://membros-durmaigualbebeem7dias.vercel.app/',
-    icon: <Image data-ai-hint="challenge goal" src="https://placehold.co/600x400.png" alt="Challenge" width={600} height={400} className="w-full h-40 object-cover" />,
-    cta: 'Start Challenge',
+    icon: <Image data-ai-hint="challenge goal" src="https://placehold.co/600x400.png" alt="Desafio" width={600} height={400} className="w-full h-40 object-cover" />,
+    cta: 'Iniciar Desafio',
   },
   {
-    title: 'Quick Sleep Tips',
-    description: 'Discover quick, actionable tips for a better night\'s rest.',
+    title: 'Dicas Rápidas de Sono',
+    description: 'Descubra dicas rápidas e práticas para uma noite de sono melhor.',
     href: '#',
-    icon: <Image data-ai-hint="tips idea" src="https://placehold.co/600x400.png" alt="Tips" width={600} height={400} className="w-full h-40 object-cover" />,
-    cta: 'Read Tips',
+    icon: <Image data-ai-hint="tips idea" src="https://placehold.co/600x400.png" alt="Dicas" width={600} height={400} className="w-full h-40 object-cover" />,
+    cta: 'Ler Dicas',
   },
   {
-    title: 'Related Videos & Articles',
-    description: 'Explore our curated list of videos and articles on sleep science.',
+    title: 'Vídeos e Artigos Relacionados',
+    description: 'Explore nossa lista de vídeos e artigos sobre a ciência do sono.',
     href: '#',
-    icon: <Image data-ai-hint="videos learning" src="https://placehold.co/600x400.png" alt="Videos" width={600} height={400} className="w-full h-40 object-cover" />,
-    cta: 'Explore More',
+    icon: <Image data-ai-hint="videos learning" src="https://placehold.co/600x400.png" alt="Vídeos" width={600} height={400} className="w-full h-40 object-cover" />,
+    cta: 'Explorar Mais',
   },
 ];
 
@@ -45,10 +45,10 @@ export default function ContentPage() {
       <AppShell>
         <div className="flex-1 space-y-4 p-4 sm:p-8 pt-6">
           <div className="flex items-center justify-between space-y-2">
-            <h1 className="text-3xl font-bold tracking-tight">More Content</h1>
+            <h1 className="text-3xl font-bold tracking-tight">Mais Conteúdo</h1>
           </div>
           <p className="text-muted-foreground">
-            Explore these additional resources to enhance your sleep journey.
+            Explore estes recursos adicionais para aprimorar sua jornada de sono.
           </p>
 
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

@@ -42,13 +42,13 @@ export default function ReportsPage() {
         <Dialog onOpenChange={(isOpen) => !isOpen && setSelectedReport(null)}>
           <div className="flex-1 space-y-4 p-4 sm:p-8 pt-6">
             <div className="flex items-center justify-between space-y-2">
-              <h1 className="text-3xl font-bold tracking-tight">My Reports</h1>
+              <h1 className="text-3xl font-bold tracking-tight">Meus Relatórios</h1>
             </div>
             <Card>
               <CardHeader>
-                <CardTitle>Generated Sleep Reports</CardTitle>
+                <CardTitle>Relatórios de Sono Gerados</CardTitle>
                 <CardDescription>
-                  View and download all your personalized sleep reports.
+                  Visualize e baixe todos os seus relatórios de sono personalizados.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -59,9 +59,9 @@ export default function ReportsPage() {
                 ) : reports.length === 0 ? (
                   <div className="text-center text-muted-foreground p-8 border-2 border-dashed rounded-lg">
                     <FileX2 className="mx-auto h-12 w-12" />
-                    <p className="mt-4">You have no reports yet.</p>
+                    <p className="mt-4">Você ainda não tem relatórios.</p>
                     <p className="text-sm">
-                      Go to the Consultation page to generate your first report.
+                      Vá para a página de Consulta para gerar seu primeiro relatório.
                     </p>
                   </div>
                 ) : (
@@ -69,10 +69,10 @@ export default function ReportsPage() {
                     <Table>
                       <TableHeader>
                         <TableRow>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Summary</TableHead>
+                          <TableHead>Data</TableHead>
+                          <TableHead>Resumo</TableHead>
                           <TableHead className="w-[120px] text-right">
-                            Actions
+                            Ações
                           </TableHead>
                         </TableRow>
                       </TableHeader>
@@ -94,12 +94,12 @@ export default function ReportsPage() {
                                   onClick={() => setSelectedReport(report)}
                                 >
                                   <Eye className="h-4 w-4" />
-                                  <span className="sr-only">View</span>
+                                  <span className="sr-only">Visualizar</span>
                                 </Button>
                               </DialogTrigger>
                               <Button variant="ghost" size="icon" disabled>
                                 <Download className="h-4 w-4" />
-                                <span className="sr-only">Download PDF</span>
+                                <span className="sr-only">Baixar PDF</span>
                               </Button>
                             </TableCell>
                           </TableRow>
@@ -115,9 +115,9 @@ export default function ReportsPage() {
           {selectedReport && (
             <DialogContent className="sm:max-w-2xl">
               <DialogHeader>
-                <DialogTitle>Sleep Report</DialogTitle>
+                <DialogTitle>Relatório de Sono</DialogTitle>
                 <DialogDescription>
-                  Generated on {selectedReport.date}
+                  Gerado em {selectedReport.date}
                 </DialogDescription>
               </DialogHeader>
               <Separator />

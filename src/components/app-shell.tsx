@@ -24,10 +24,10 @@ import {
 } from '@/components/ui/sheet';
 
 const navItems = [
-  { href: '/', label: 'Consultation', icon: Bot },
-  { href: '/reports', label: 'My Reports', icon: FileText },
-  { href: '/content', label: 'More Content', icon: LibraryBig },
-  { href: '/settings', label: 'Settings', icon: Settings },
+  { href: '/', label: 'Consulta', icon: Bot },
+  { href: '/reports', label: 'Meus Relatórios', icon: FileText },
+  { href: '/content', label: 'Mais Conteúdo', icon: LibraryBig },
+  { href: '/settings', label: 'Configurações', icon: Settings },
 ];
 
 const NavLink = ({
@@ -67,7 +67,7 @@ const MobileNav = ({ onLogout }: { onLogout: () => void }) => {
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <Menu className="h-5 w-5" />
-          <span className="sr-only">Toggle navigation menu</span>
+          <span className="sr-only">Alternar menu de navegação</span>
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="flex flex-col">
@@ -90,7 +90,7 @@ const MobileNav = ({ onLogout }: { onLogout: () => void }) => {
         <div className="mt-auto">
           <Button variant="ghost" onClick={onLogout} className="w-full justify-start gap-3 px-3 py-2">
             <LogOut className="h-4 w-4" />
-            Logout
+            Sair
           </Button>
         </div>
       </SheetContent>
@@ -115,7 +115,7 @@ const Sidebar = ({ onLogout }: { onLogout: () => void }) => {
         <div className="mt-auto p-4">
            <Button variant="ghost" onClick={onLogout} className="w-full justify-start gap-3 px-3 py-2">
             <LogOut className="h-4 w-4" />
-            Logout
+            Sair
           </Button>
         </div>
       </div>

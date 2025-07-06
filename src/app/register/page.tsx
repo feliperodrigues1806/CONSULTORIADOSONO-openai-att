@@ -28,8 +28,8 @@ import { useAuth } from '@/hooks/use-auth';
 import { Logo } from '@/components/logo';
 
 const formSchema = z.object({
-  email: z.string().email('Please enter a valid email address.'),
-  password: z.string().min(8, 'Password must be at least 8 characters.'),
+  email: z.string().email('Por favor, insira um endereço de e-mail válido.'),
+  password: z.string().min(8, 'A senha deve ter pelo menos 8 caracteres.'),
 });
 
 export default function RegisterPage() {
@@ -60,9 +60,9 @@ export default function RegisterPage() {
       </div>
       <Card className="w-full max-w-sm">
         <CardHeader>
-          <CardTitle className="text-2xl">Sign Up</CardTitle>
+          <CardTitle className="text-2xl">Cadastre-se</CardTitle>
           <CardDescription>
-            Enter your information to create an account.
+            Insira suas informações para criar uma conta.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -73,11 +73,11 @@ export default function RegisterPage() {
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>E-mail</FormLabel>
                     <FormControl>
                       <Input
                         type="email"
-                        placeholder="m@example.com"
+                        placeholder="m@exemplo.com"
                         {...field}
                       />
                     </FormControl>
@@ -90,7 +90,7 @@ export default function RegisterPage() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>Senha</FormLabel>
                     <FormControl>
                       <Input type="password" {...field} />
                     </FormControl>
@@ -100,14 +100,14 @@ export default function RegisterPage() {
               />
               <Button type="submit" className="w-full" disabled={isLoading}>
                 {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Create account
+                Criar conta
               </Button>
             </form>
           </Form>
           <div className="mt-4 text-center text-sm">
-            Already have an account?{' '}
+            Já tem uma conta?{' '}
             <Link href="/login" className="underline">
-              Login
+              Entrar
             </Link>
           </div>
         </CardContent>
