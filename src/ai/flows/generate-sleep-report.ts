@@ -13,18 +13,18 @@ import {ai} from '@/ai/genkit';
 import {z} from 'genkit';
 
 const GenerateSleepReportInputSchema = z.object({
-  name: z.string().describe("O nome do usuário."),
-  age: z.number().describe("A idade do usuário."),
-  routineDescription: z.string().describe("Uma descrição da rotina diária do usuário."),
-  bedtime: z.string().describe("O horário de dormir típico do usuário."),
-  sleepDifficulties: z.string().describe("Uma descrição das dificuldades de sono do usuário."),
-  previousMethods: z.string().describe("Quaisquer métodos anteriores que o usuário tentou para melhorar o sono."),
-  expectations: z.string().describe("As expectativas do usuário para melhorar o sono."),
+  name: z.string(),
+  age: z.number(),
+  routineDescription: z.string(),
+  bedtime: z.string(),
+  sleepDifficulties: z.string(),
+  previousMethods: z.string(),
+  expectations: z.string(),
 });
 export type GenerateSleepReportInput = z.infer<typeof GenerateSleepReportInputSchema>;
 
 const GenerateSleepReportOutputSchema = z.object({
-  report: z.string().describe("Um relatório de sono personalizado com conselhos adaptados."),
+  report: z.string(),
 });
 export type GenerateSleepReportOutput = z.infer<typeof GenerateSleepReportOutputSchema>;
 
@@ -80,7 +80,12 @@ const generateSleepReportFlow = ai.defineFlow(
     outputSchema: GenerateSleepReportOutputSchema,
   },
   async input => {
-    const {output} = await generateSleepReportPrompt(input);
-    return output!;
+    const result = await generateSleepReportPrompt(input);
+    const output = result.output;
+    if (!output) {
+      console.error("AI response was empty or did not match the expected schema. Full response:", JSON.stringify(result));
+      throw new Error("A resposta da IA falhou ou estava em um formato inesperado.");
+    }
+    return output;
   }
 );
