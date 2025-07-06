@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Download, Eye, Loader2, FileX2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -25,6 +25,7 @@ import {
   DialogTitle,
   DialogDescription,
   DialogTrigger,
+  DialogFooter,
 } from '@/components/ui/dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Separator } from '@/components/ui/separator';
@@ -32,10 +33,54 @@ import AuthGuard from '@/components/auth-guard';
 import AppShell from '@/components/app-shell';
 import { useReports, type Report as ReportType } from '@/hooks/use-reports';
 import { MarkdownContent } from '@/components/markdown-content';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 export default function ReportsPage() {
   const { reports, isLoading } = useReports();
   const [selectedReport, setSelectedReport] = useState<ReportType | null>(null);
+  const [isDownloading, setIsDownloading] = useState(false);
+  const reportContentRef = useRef<HTMLDivElement>(null);
+
+  const handleDownloadPdf = async () => {
+    if (!reportContentRef.current || !selectedReport) return;
+
+    setIsDownloading(true);
+    try {
+      const canvas = await html2canvas(reportContentRef.current, {
+        scale: 2, // Aumenta a resolução para um PDF mais nítido
+      });
+      
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = imgWidth / imgHeight;
+
+      let newImgWidth = pdfWidth - 20; // Margem de 10mm de cada lado
+      let newImgHeight = newImgWidth / ratio;
+
+      // Se a altura da imagem for maior que a da página, ajusta para caber
+      if (newImgHeight > pdfHeight - 20) {
+        newImgHeight = pdfHeight - 20;
+        newImgWidth = newImgHeight * ratio;
+      }
+      
+      const x = (pdfWidth - newImgWidth) / 2;
+      const y = 10; // Margem superior de 10mm
+
+      pdf.addImage(imgData, 'PNG', x, y, newImgWidth, newImgHeight);
+      pdf.save(`relatorio-sono-${selectedReport.id.split('T')[0]}.pdf`);
+    } catch (error) {
+      console.error("Erro ao gerar PDF:", error);
+    } finally {
+      setIsDownloading(false);
+    }
+  };
+
 
   return (
     <AuthGuard>
@@ -72,7 +117,7 @@ export default function ReportsPage() {
                         <TableRow>
                           <TableHead>Data</TableHead>
                           <TableHead>Resumo</TableHead>
-                          <TableHead className="w-[120px] text-right">
+                          <TableHead className="w-[80px] text-right">
                             Ações
                           </TableHead>
                         </TableRow>
@@ -91,17 +136,12 @@ export default function ReportsPage() {
                                 <Button
                                   variant="ghost"
                                   size="icon"
-                                  className="mr-2"
                                   onClick={() => setSelectedReport(report)}
                                 >
                                   <Eye className="h-4 w-4" />
                                   <span className="sr-only">Visualizar</span>
                                 </Button>
                               </DialogTrigger>
-                              <Button variant="ghost" size="icon" disabled>
-                                <Download className="h-4 w-4" />
-                                <span className="sr-only">Baixar PDF</span>
-                              </Button>
                             </TableCell>
                           </TableRow>
                         ))}
@@ -123,10 +163,29 @@ export default function ReportsPage() {
               </DialogHeader>
               <Separator />
               <ScrollArea className="h-[60vh] pr-4">
-                <div className="prose prose-sm sm:prose-base dark:prose-invert max-w-none font-sans">
+                <div 
+                    ref={reportContentRef} 
+                    className="prose prose-sm sm:prose-base dark:prose-invert max-w-none font-sans bg-card text-card-foreground p-6 rounded-lg"
+                >
                   <MarkdownContent text={selectedReport.content} />
                 </div>
               </ScrollArea>
+              <Separator />
+              <DialogFooter className="pt-4 sm:pt-2">
+                <Button onClick={handleDownloadPdf} disabled={isDownloading}>
+                  {isDownloading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Baixando...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="mr-2 h-4 w-4" />
+                      Baixar PDF
+                    </>
+                  )}
+                </Button>
+              </DialogFooter>
             </DialogContent>
           )}
         </Dialog>
