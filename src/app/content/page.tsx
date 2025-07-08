@@ -20,8 +20,15 @@ const contentItems = [
     title: 'Acesse o Desafio de 7 Dias',
     description: 'Participe do nosso desafio completo de 7 dias para transformar seus hábitos de sono.',
     href: 'https://membros-durmaigualbebeem7dias.vercel.app/',
-    icon: <Image data-ai-hint="challenge goal" src="https://i.imgur.com/SasjOKJ.png" alt="Desafio" width={600} height={400} className="w-full h-40 object-cover" />,
+    icon: <Image data-ai-hint="challenge goal" src="https://i.imgur.com/SasjOKJ.png" alt="Desafio de Sono" width={600} height={400} className="w-full h-40 object-cover" />,
     cta: 'Iniciar Desafio',
+  },
+  {
+    title: 'Detox Digital: Desafio 7 Dias sem Procrastinação',
+    description: 'Reduza a procrastinação e melhore seu foco com nosso desafio de 7 dias.',
+    href: 'https://membros-durmaigualbebeem7dias.vercel.app/',
+    icon: <Image data-ai-hint="digital detox" src="https://i.imgur.com/7nCICKY.png" alt="Detox Digital" width={600} height={400} className="w-full h-40 object-cover" />,
+    cta: 'Começar Detox',
   },
 ];
 
@@ -34,10 +41,10 @@ export default function ContentPage() {
             <h1 className="text-3xl font-bold tracking-tight">Mais Conteúdo</h1>
           </div>
           <p className="text-muted-foreground">
-            Explore este recurso para aprimorar sua jornada de sono.
+            Explore estes recursos para aprimorar sua jornada.
           </p>
 
-          <div className="mx-auto max-w-md pt-6">
+          <div className="grid gap-6 pt-6 sm:grid-cols-1 lg:grid-cols-2">
             {contentItems.map((item) => (
               <Card key={item.title} className="flex flex-col overflow-hidden">
                 <div className="h-40 overflow-hidden">
