@@ -29,13 +29,13 @@ import { MarkdownContent } from '@/components/markdown-content';
 const formSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
   age: z.coerce.number().min(1, 'Por favor, insira sua idade.').max(120),
-  routineDescription: z.string().min(10, 'Por favor, descreva sua rotina.'),
+  routineDescription: z.string().min(1, 'Por favor, descreva sua rotina.'),
   bedtime: z.string().min(1, 'Por favor, insira seu horário de dormir.'),
   sleepDifficulties: z
     .string()
-    .min(10, 'Por favor, descreva suas dificuldades para dormir.'),
+    .min(1, 'Por favor, descreva suas dificuldades para dormir.'),
   previousMethods: z.string().optional(),
-  expectations: z.string().min(10, 'Por favor, descreva suas expectativas.'),
+  expectations: z.string().min(1, 'Por favor, descreva suas expectativas.'),
 });
 
 type FormValues = z.infer<typeof formSchema>;

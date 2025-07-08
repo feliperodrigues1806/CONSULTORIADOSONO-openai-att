@@ -1,53 +1,58 @@
-// src/ai/flows/generate-sleep-report.ts
 'use server';
 
 /**
- * @fileOverview Gera um relatório de sono personalizado com conselhos adaptados com base na entrada do usuário.
+ * @fileOverview Gera um relatório de sono personalizado usando a API da OpenAI.
  *
  * - generateSleepReport - Uma função que lida com a geração do relatório de sono.
  * - GenerateSleepReportInput - O tipo de entrada para a função generateSleepReport.
  * - GenerateSleepReportOutput - O tipo de retorno para a função generateSleepReport.
  */
 
-import {ai} from '@/ai/genkit';
-import {z} from 'genkit';
+import OpenAI from 'openai';
+import { z } from 'zod';
+
+if (!process.env.OPENAI_API_KEY) {
+  throw new Error('OPENAI_API_KEY not found. Please add it to your .env file.');
+}
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 const GenerateSleepReportInputSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
   age: z.coerce.number().min(1, 'Por favor, insira sua idade.').max(120),
-  routineDescription: z.string().min(10, 'Por favor, descreva sua rotina.'),
+  routineDescription: z.string().min(1, 'Por favor, descreva sua rotina.'),
   bedtime: z.string().min(1, 'Por favor, insira seu horário de dormir.'),
-  sleepDifficulties: z.string().min(10, 'Por favor, descreva suas dificuldades para dormir.'),
+  sleepDifficulties: z
+    .string()
+    .min(1, 'Por favor, descreva suas dificuldades para dormir.'),
   previousMethods: z.string().optional(),
-  expectations: z.string().min(10, 'Por favor, descreva suas expectativas.'),
+  expectations: z.string().min(1, 'Por favor, descreva suas expectativas.'),
 });
-export type GenerateSleepReportInput = z.infer<typeof GenerateSleepReportInputSchema>;
+export type GenerateSleepReportInput = z.infer<
+  typeof GenerateSleepReportInputSchema
+>;
 
 const GenerateSleepReportOutputSchema = z.object({
   report: z.string(),
 });
-export type GenerateSleepReportOutput = z.infer<typeof GenerateSleepReportOutputSchema>;
+export type GenerateSleepReportOutput = z.infer<
+  typeof GenerateSleepReportOutputSchema
+>;
 
-export async function generateSleepReport(input: GenerateSleepReportInput): Promise<GenerateSleepReportOutput> {
-  return generateSleepReportFlow(input);
-}
+export async function generateSleepReport(
+  input: GenerateSleepReportInput
+): Promise<GenerateSleepReportOutput> {
+  const validatedInput = GenerateSleepReportInputSchema.parse(input);
 
-const generateSleepReportFlow = ai.defineFlow(
-  {
-    name: 'generateSleepReportFlow',
-    inputSchema: GenerateSleepReportInputSchema,
-    outputSchema: GenerateSleepReportOutputSchema,
-  },
-  async (input) => {
-    console.log(`[generateSleepReportFlow] Iniciando para: ${input.name}`);
-    
-    const currentDate = new Date().toLocaleDateString('pt-BR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    });
+  const currentDate = new Date().toLocaleDateString('pt-BR', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
 
-    const prompt = `
+  const prompt = `
 Você é um consultor de sono da plataforma Consultoria do Sono. Seu objetivo é gerar um relatório de sono personalizado, estruturado e motivacional em Markdown.
 
 **Instruções Gerais:**
@@ -57,21 +62,21 @@ Você é um consultor de sono da plataforma Consultoria do Sono. Seu objetivo é
 - A seção "Checklist para os Próximos Dias" deve ser INCLUÍDA EXATAMENTE como está, sem nenhuma alteração.
 
 **Dados do Usuário:**
-- **Nome:** ${input.name}
-- **Idade:** ${input.age}
-- **Rotina Diária:** ${input.routineDescription}
-- **Horário de Dormir Típico:** ${input.bedtime}
-- **Dificuldades para Dormir:** ${input.sleepDifficulties}
-- **O que já tentou:** ${input.previousMethods || 'Não informado'}
-- **Expectativas:** ${input.expectations}
+- **Nome:** ${validatedInput.name}
+- **Idade:** ${validatedInput.age}
+- **Rotina Diária:** ${validatedInput.routineDescription}
+- **Horário de Dormir Típico:** ${validatedInput.bedtime}
+- **Dificuldades para Dormir:** ${validatedInput.sleepDifficulties}
+- **O que já tentou:** ${validatedInput.previousMethods || 'Não informado'}
+- **Expectativas:** ${validatedInput.expectations}
 
 ---
 
 **Formato do Relatório (Use este template):**
 
-#### Relatório de Sono Personalizado – ${input.name}
+#### Relatório de Sono Personalizado – ${validatedInput.name}
 **Data:** ${currentDate}
-**Para:** ${input.name}, ${input.age} anos
+**Para:** ${validatedInput.name}, ${validatedInput.age} anos
 
 ---
 
@@ -101,37 +106,61 @@ Você é um consultor de sono da plataforma Consultoria do Sono. Seu objetivo é
 ---
 
 #### Dica Final
-[Escreva aqui uma frase motivacional curta, citando o nome do usuário. Exemplo: "Lembre-se que a consistência é o segredo para um sono reparador. Estamos juntos nessa jornada, ${input.name}!"]
+[Escreva aqui uma frase motivacional curta, citando o nome do usuário. Exemplo: "Lembre-se que a consistência é o segredo para um sono reparador. Estamos juntos nessa jornada, ${
+    validatedInput.name
+  }!"]
 `;
 
-    try {
-      console.log('[generateSleepReportFlow] Enviando requisição para a API Gemini...');
-      const result = await ai.generate({
-        model: 'googleai/gemini-1.5-flash-latest',
-        prompt: prompt,
-      });
-      
-      const reportText = result.text;
-      console.log('[generateSleepReportFlow] Resposta da API Gemini recebida.');
+  try {
+    console.log('[generateSleepReport] Enviando requisição para a API OpenAI...');
 
-      if (!reportText) {
-        console.error(
-          '[generateSleepReportFlow] A resposta de texto estava vazia. Resposta completa:',
-          JSON.stringify(result, null, 2)
-        );
-        throw new Error('O sistema não retornou conteúdo de texto no relatório.');
-      }
+    const response = await openai.chat.completions.create({
+      model: 'gpt-3.5-turbo',
+      messages: [
+        {
+          role: 'system',
+          content:
+            'Você é um consultor de sono especialista em criar relatórios em formato Markdown. Siga estritamente o template fornecido.',
+        },
+        {
+          role: 'user',
+          content: prompt,
+        },
+      ],
+      temperature: 0.7,
+      max_tokens: 1000,
+    });
 
-      console.log('[generateSleepReportFlow] Relatório gerado com sucesso.');
-      return { report: reportText };
+    const reportText = response.choices[0]?.message?.content;
+    console.log('[generateSleepReport] Resposta da API OpenAI recebida.');
 
-    } catch (error) {
-      console.error('[generateSleepReportFlow] Erro detalhado ao chamar a API Gemini:', error);
-      if (error instanceof Error) {
-        // Propaga o erro com uma mensagem mais clara, que será capturada pela action.
-        throw new Error(`Falha na comunicação com nosso sistema: ${error.message}`);
-      }
-      throw new Error('Ocorreu um erro desconhecido ao se comunicar com nosso sistema.');
+    if (!reportText) {
+      console.error(
+        '[generateSleepReport] A resposta de texto estava vazia. Resposta completa:',
+        JSON.stringify(response, null, 2)
+      );
+      throw new Error('O sistema não retornou conteúdo de texto no relatório.');
     }
+
+    console.log('[generateSleepReport] Relatório gerado com sucesso.');
+    return { report: reportText.trim() };
+  } catch (error) {
+    console.error(
+      '[generateSleepReport] Erro detalhado ao chamar a API OpenAI:',
+      error
+    );
+    if (error instanceof OpenAI.APIError) {
+      throw new Error(
+        `Falha na comunicação com nosso sistema: ${error.name} - ${error.message}`
+      );
+    }
+    if (error instanceof Error) {
+      throw new Error(
+        `Falha na comunicação com nosso sistema: ${error.message}`
+      );
+    }
+    throw new Error(
+      'Ocorreu um erro desconhecido ao se comunicar com nosso sistema.'
+    );
   }
-);
+}
