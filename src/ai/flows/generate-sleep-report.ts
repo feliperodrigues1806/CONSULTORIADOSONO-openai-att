@@ -11,14 +11,6 @@
 import OpenAI from 'openai';
 import { z } from 'zod';
 
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error('OPENAI_API_KEY not found. Please add it to your .env file.');
-}
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 const GenerateSleepReportInputSchema = z.object({
   name: z.string().min(2, 'O nome deve ter pelo menos 2 caracteres.'),
   age: z.coerce.number().min(1, 'Por favor, insira sua idade.').max(120),
@@ -44,6 +36,14 @@ export type GenerateSleepReportOutput = z.infer<
 export async function generateSleepReport(
   input: GenerateSleepReportInput
 ): Promise<GenerateSleepReportOutput> {
+  if (!process.env.OPENAI_API_KEY) {
+    throw new Error('OPENAI_API_KEY not found. Please add it to your .env file.');
+  }
+
+  const openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+
   const validatedInput = GenerateSleepReportInputSchema.parse(input);
 
   const currentDate = new Date().toLocaleDateString('pt-BR', {
@@ -115,7 +115,7 @@ Você é um consultor de sono da plataforma Consultoria do Sono. Seu objetivo é
     console.log('[generateSleepReport] Enviando requisição para a API OpenAI...');
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'system',
